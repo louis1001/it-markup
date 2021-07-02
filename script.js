@@ -199,15 +199,25 @@ class ITLexer {
 
 let textInput
 let textOutput
+let schemeSelector
 addEventListener('load', ()=>{
 	textInput = document.getElementById('text-input')
 	textOutput = document.getElementById('text-output')
+    schemeSelector = document.getElementById('darkmode-picker')
+
+    if (schemeSelector.checked) {
+        document.body.classList.add("dark")
+    }
 
 	textInput.addEventListener('DOMSubtreeModified', ()=> {
 		let result = parseText(escapeHtml(textInput.innerText))
 
         textOutput.innerHTML = result.text
 	})
+
+    schemeSelector.addEventListener("change", ()=> {
+        document.body.classList.toggle("dark")
+    })
 })
 
 function parseText(txt) {
@@ -215,6 +225,5 @@ function parseText(txt) {
 
 	lexer.setup(txt, {num_preguntas: 200})
 	let result = lexer.parse()
-	console.log(result)
     return result
 }

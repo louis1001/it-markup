@@ -1,7 +1,19 @@
 
 body {
+	--background-color: #fffbf0;
+	--text-color: rgb(104, 104, 104);
+	--shadow-color: 20, 20, 20;
 	font-family: Verdana;
+	background: var(--background-color);
+	color: var(--text-color);
 	--accent-color: rgb(0, 116, 81);
+}
+
+body.dark {
+	--background-color: #222;
+	--shadow-color: 0, 0, 0;
+	--text-color: rgb(180, 200, 200);
+	--accent-color: rgb(53, 181, 142);
 }
 
 h1 {
@@ -29,8 +41,7 @@ main {
 }
 
 #text-input {
-	background: #fff;
-	box-shadow: 0 2px 4px #5557;
+	box-shadow: 0 2px 4px rgba(var(--shadow-color), 0.5);
 	transition: box-shadow 0.1s;
 	overflow-y: scroll;
 
@@ -44,7 +55,7 @@ main {
 }
 
 #text-input:hover {
-	box-shadow: 0 5px 10px #5557;
+	box-shadow: 0 5px 10px rgba(var(--shadow-color), 0.3);
 }
 
 #text-input:focus {
