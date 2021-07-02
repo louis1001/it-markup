@@ -1,0 +1,52 @@
+
+body {
+	font-family: Verdana;
+	--accent-color: rgb(0, 116, 81);
+}
+
+h1 {
+	text-align: center;
+}
+
+h1, h2 {
+	color: var(--accent-color);
+}
+
+main {
+	display: grid;
+	max-width: 700px;
+	height: 500px;
+	margin: 0 auto;
+}
+
+.textbox {
+	margin: 0;
+	height:  200px;
+	padding: 10px;
+	border-radius: 10px;
+	margin: 20px;
+	overflow-x: wrap;
+}
+
+#text-input {
+	background: #eee;
+	box-shadow: 0 2px 4px #5557;
+	transition: box-shadow 0.1s;
+	overflow-y: scroll;
+
+	-ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll; 
+}
+
+#text-input::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
+#text-input:hover {
+	box-shadow: 0 5px 10px #5557;
+}
+
+#text-input:focus {
+	outline: thin solid #999;
+}
