@@ -20,6 +20,16 @@ class Text {
 	}
 }
 
+// From https://stackoverflow.com/a/6234804
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+ }
+
 const tagStart = "@"
 const tagDelimiterStart = "{"
 const tagDelimiterEnd = "}"
@@ -108,15 +118,18 @@ class ITLexer {
     }
     
     isValidIdChar(char, first) {
+        if (char == null) return false
         return char == "_" || (/[a-zA-Z]/).test(char) || (!first && (/[0-9]/).test(char))
     }
     
     replaceIdentifiers(text) {
         let result = text
-        while(result.indexOf(identifierChar) > 0){
+        while(result.indexOf(identifierChar) >= 0){
         	let charPosition = result.indexOf(identifierChar)
-            let iter = charPosition
-            let charInReplacement = () => { iter >= result.length ? null : result[iter] }
+            let iter = charPosition+1
+            function charInReplacement(){
+                return iter >= result.length ? null : result[iter]
+            }
 
             let identifier = ""
             let first = true
@@ -128,13 +141,13 @@ class ITLexer {
             }
             
             let value
-            if (variables[identifier]) {
-                value = "" + variables[identifier]
+            if (this.variables[identifier]) {
+                value = "" + this.variables[identifier]
             } else {
                 value = missingIdentifierPlaceholder
             }
 
-            result = result.substr(0, charPosition) + value + result.substr(charPosition + identifier.length - 1)
+            result = result.substr(0, charPosition) + value + result.substr(charPosition + identifier.length + 1)
         }
         
         return result
@@ -150,7 +163,7 @@ class ITLexer {
             }
 
             // Take as many characters as possible as a single Text instance
-            let tagIndex = this.text.indexOf(tagStart)
+            let tagIndex = this.text.substr(this.position).indexOf(tagStart)
             if (tagIndex < 0) { tagIndex = this.text.length }
             let simpleText = this.text.substr(this.position, tagIndex)
             
@@ -191,14 +204,17 @@ addEventListener('load', ()=>{
 	textOutput = document.getElementById('text-output')
 
 	textInput.addEventListener('DOMSubtreeModified', ()=> {
-		parseText(textInput.innerText)
+		let result = parseText(escapeHtml(textInput.innerText))
+
+        textOutput.innerHTML = result.text
 	})
 })
 
 function parseText(txt) {
 	let lexer = new ITLexer()
 
-	lexer.setup(txt)
+	lexer.setup(txt, {num_preguntas: 200})
 	let result = lexer.parse()
 	console.log(result)
+    return result
 }
