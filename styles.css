@@ -29,7 +29,7 @@ main {
 }
 
 #text-input {
-	background: #eee;
+	background: #fff;
 	box-shadow: 0 2px 4px #5557;
 	transition: box-shadow 0.1s;
 	overflow-y: scroll;
@@ -48,5 +48,5 @@ main {
 }
 
 #text-input:focus {
-	outline: thin solid #999;
+	outline: none;
 }
